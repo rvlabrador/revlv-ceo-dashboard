@@ -1,7 +1,7 @@
 {
   "_app": "revlv-ceo-dashboard",
   "_version": 1,
-  "exportedAt": "2026-06-01T02:41:27.891Z",
+  "exportedAt": "2026-06-01T02:41:55.608Z",
   "data": {
     "revlv_goals": "[{\"id\":1,\"name\":\"Emergency Fund (6mo)\",\"target\":3000000,\"current\":1200000,\"cat\":\"Emergency Fund\"},{\"id\":2,\"name\":\"Investment Portfolio\",\"target\":10000000,\"current\":2500000,\"cat\":\"Investment\"},{\"id\":3,\"name\":\"Real Estate — 2nd Property\",\"target\":8000000,\"current\":800000,\"cat\":\"Real Estate\"},{\"id\":4,\"name\":\"Education Fund (Children)\",\"target\":5000000,\"current\":500000,\"cat\":\"Education Fund\"}]",
     "revlv_gospel_2026_5_29": "{\"day\":\"Menu: Top Buttons\",\"gospel\":\"Mark 11:11-26\",\"gospelRef\":\"\",\"reading1\":\"1 Peter 4:7-13\",\"reading1Ref\":\"\",\"psalm\":\"Psalm 96:10, 11-12, 13\",\"psalmRef\":\"\",\"alleluia\":\"See John 15:16\",\"fetchedAt\":\"2026-05-30T00:03:18.339Z\",\"date\":\"2026-05-30\",\"sourceUrl\":\"https://bible.usccb.org/bible/readings/052926.cfm\"}",
