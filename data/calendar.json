@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-01T00:32:06Z",
+  "lastUpdated": "2026-06-01T02:33:10Z",
   "source": "Google Calendar MCP — ryanlabs@gmail.com",
   "account": "ryanlabs@gmail.com",
   "syncNote": "Live sync via Google Calendar MCP connector",
@@ -9,8 +9,12 @@
       "summary": "Binggz' birthday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-01" },
-      "end": { "date": "2026-06-02" },
+      "start": {
+        "date": "2026-06-01"
+      },
+      "end": {
+        "date": "2026-06-02"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -20,19 +24,27 @@
       "summary": "Flight to Butuan (5J 3093)",
       "description": null,
       "location": "Manila MNL",
-      "start": { "dateTime": "2026-06-01T06:20:00+08:00" },
-      "end": { "dateTime": "2026-06-01T08:05:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-01T06:20:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-01T08:05:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
     },
     {
       "id": "c4rj0p9jc8pjgb9kckrjib9k6gr6cb9p6coj8bb26crm4p9k70rjec1g60",
-      "summary": "Meet with Capt Pacis",
+      "summary": "Meet with Capt Pacis ",
       "description": null,
       "location": "TBA",
-      "start": { "dateTime": "2026-06-01T15:00:00+08:00" },
-      "end": { "dateTime": "2026-06-01T16:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-01T15:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-01T16:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -42,8 +54,12 @@
       "summary": "Pililla Rizal celebration for Binggz",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-02" },
-      "end": { "date": "2026-06-04" },
+      "start": {
+        "date": "2026-06-02"
+      },
+      "end": {
+        "date": "2026-06-04"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -53,8 +69,12 @@
       "summary": "Early dinner with Usec H and Atty",
       "description": null,
       "location": "Newport",
-      "start": { "dateTime": "2026-06-02T06:00:00+08:00" },
-      "end": { "dateTime": "2026-06-02T07:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-02T06:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-02T07:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -64,8 +84,12 @@
       "summary": "Flight to Manila (5J 3086)",
       "description": null,
       "location": "Butuan BXU",
-      "start": { "dateTime": "2026-06-02T11:40:00+08:00" },
-      "end": { "dateTime": "2026-06-02T13:25:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-02T11:40:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-02T13:25:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -75,8 +99,12 @@
       "summary": "Pangasinan Ocular and meeting with Cong Eski",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-03" },
-      "end": { "date": "2026-06-05" },
+      "start": {
+        "date": "2026-06-03"
+      },
+      "end": {
+        "date": "2026-06-05"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -86,8 +114,12 @@
       "summary": "Flight to Iloilo (5J 447)",
       "description": null,
       "location": "Manila MNL",
-      "start": { "dateTime": "2026-06-03T05:40:00+08:00" },
-      "end": { "dateTime": "2026-06-03T07:05:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-03T05:40:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-03T07:05:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -97,8 +129,12 @@
       "summary": "Flight to Manila (5J 458)",
       "description": null,
       "location": "Iloilo ILO",
-      "start": { "dateTime": "2026-06-03T18:30:00+08:00" },
-      "end": { "dateTime": "2026-06-03T20:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-03T18:30:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-03T20:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -108,8 +144,12 @@
       "summary": "Insan Fred's birthday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-05" },
-      "end": { "date": "2026-06-06" },
+      "start": {
+        "date": "2026-06-05"
+      },
+      "end": {
+        "date": "2026-06-06"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -119,8 +159,12 @@
       "summary": "Yuri's birthday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-05" },
-      "end": { "date": "2026-06-06" },
+      "start": {
+        "date": "2026-06-05"
+      },
+      "end": {
+        "date": "2026-06-06"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -130,8 +174,12 @@
       "summary": "Meet with Mayor Caesar",
       "description": null,
       "location": "Newport",
-      "start": { "date": "2026-06-06" },
-      "end": { "date": "2026-06-07" },
+      "start": {
+        "date": "2026-06-06"
+      },
+      "end": {
+        "date": "2026-06-07"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -141,8 +189,12 @@
       "summary": "Atty Buloy's bday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-06" },
-      "end": { "date": "2026-06-07" },
+      "start": {
+        "date": "2026-06-06"
+      },
+      "end": {
+        "date": "2026-06-07"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -152,8 +204,12 @@
       "summary": "Dinner for Yuri's bday",
       "description": null,
       "location": "Makati",
-      "start": { "dateTime": "2026-06-06T06:00:00+08:00" },
-      "end": { "dateTime": "2026-06-06T07:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-06T06:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-06T07:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -163,8 +219,12 @@
       "summary": "Ms. Neah's bday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-07" },
-      "end": { "date": "2026-06-08" },
+      "start": {
+        "date": "2026-06-07"
+      },
+      "end": {
+        "date": "2026-06-08"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -174,8 +234,12 @@
       "summary": "Sunday Mass",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-07" },
-      "end": { "date": "2026-06-08" },
+      "start": {
+        "date": "2026-06-07"
+      },
+      "end": {
+        "date": "2026-06-08"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -185,8 +249,12 @@
       "summary": "Isabela Mayors",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-07" },
-      "end": { "date": "2026-06-11" },
+      "start": {
+        "date": "2026-06-07"
+      },
+      "end": {
+        "date": "2026-06-11"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -196,8 +264,12 @@
       "summary": "Waive World Cc Annual Fee",
       "description": null,
       "location": null,
-      "start": { "dateTime": "2026-06-10T08:00:00+08:00" },
-      "end": { "dateTime": "2026-06-10T09:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-10T08:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-10T09:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -207,8 +279,12 @@
       "summary": "Gumaca and Daraga",
       "description": null,
       "location": null,
-      "start": { "dateTime": "2026-06-11T20:00:00+08:00" },
-      "end": { "dateTime": "2026-06-13T21:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-11T20:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-13T21:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -218,8 +294,12 @@
       "summary": "Fr. Joel's golden anniversary",
       "description": null,
       "location": "26-D Twin Tower, 4767 Ayala Ave. Makati",
-      "start": { "dateTime": "2026-06-11T22:30:00+08:00" },
-      "end": { "dateTime": "2026-06-11T23:30:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-11T22:30:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-11T23:30:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -229,8 +309,12 @@
       "summary": "Mama's bday",
       "description": null,
       "location": null,
-      "start": { "dateTime": "2026-06-13T08:00:00+08:00" },
-      "end": { "dateTime": "2026-06-13T09:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-13T08:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-13T09:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -240,8 +324,12 @@
       "summary": "Sunday Mass",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-14" },
-      "end": { "date": "2026-06-15" },
+      "start": {
+        "date": "2026-06-14"
+      },
+      "end": {
+        "date": "2026-06-15"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -251,8 +339,12 @@
       "summary": "Yannah's birthday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-14" },
-      "end": { "date": "2026-06-15" },
+      "start": {
+        "date": "2026-06-14"
+      },
+      "end": {
+        "date": "2026-06-15"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -262,8 +354,12 @@
       "summary": "Ate Gigi's Birthday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-19" },
-      "end": { "date": "2026-06-20" },
+      "start": {
+        "date": "2026-06-19"
+      },
+      "end": {
+        "date": "2026-06-20"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -273,8 +369,12 @@
       "summary": "Aklan LGUs meeting",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-21" },
-      "end": { "date": "2026-06-27" },
+      "start": {
+        "date": "2026-06-21"
+      },
+      "end": {
+        "date": "2026-06-27"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -284,8 +384,12 @@
       "summary": "Sunday Mass",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-21" },
-      "end": { "date": "2026-06-22" },
+      "start": {
+        "date": "2026-06-21"
+      },
+      "end": {
+        "date": "2026-06-22"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -295,8 +399,12 @@
       "summary": "Wedding Anniversary",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-25" },
-      "end": { "date": "2026-06-26" },
+      "start": {
+        "date": "2026-06-25"
+      },
+      "end": {
+        "date": "2026-06-26"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -304,10 +412,14 @@
     {
       "id": "_60q30c1g60o30e1i60o4ac1g60rj8gpl88rj2c1h84s34h9g60s30c1g60o30c1g6srjici16d2j0dpn8ksk8gpg64o30c1g60o30c1g60o30c1g60o32c1g60o30c1g890jaea68l0k2gho6d348h1k8cs4ccq1752jie9k6krjeh9h6kp0",
       "summary": "Ryan and Bill 3rd One-on-One",
-      "description": "Microsoft Teams meeting. Join: https://teams.microsoft.com/meet/251749101835067?p=1abwcOcaRkWJs09utq | Meeting ID: 251 749 101 835 067 | Passcode: g2Jy6tv2",
+      "description": "Microsoft Teams meeting. Join: https://teams.microsoft.com/meet/251749101835067?p=1abwcOcaRkWJs09utq Meeting ID: 251 749 101 835 067 Passcode: g2Jy6tv2",
       "location": "Microsoft Teams Meeting",
-      "start": { "dateTime": "2026-06-25T07:00:00+08:00" },
-      "end": { "dateTime": "2026-06-25T07:50:00+08:00" },
+      "start": {
+        "dateTime": "2026-06-25T07:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-25T07:50:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -317,8 +429,12 @@
       "summary": "Harvey's birthday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-26" },
-      "end": { "date": "2026-06-27" },
+      "start": {
+        "date": "2026-06-26"
+      },
+      "end": {
+        "date": "2026-06-27"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -328,8 +444,12 @@
       "summary": "Wedding anniv celeb",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-27" },
-      "end": { "date": "2026-06-29" },
+      "start": {
+        "date": "2026-06-27"
+      },
+      "end": {
+        "date": "2026-06-29"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -339,8 +459,12 @@
       "summary": "Sunday Mass",
       "description": null,
       "location": null,
-      "start": { "date": "2026-06-28" },
-      "end": { "date": "2026-06-29" },
+      "start": {
+        "date": "2026-06-28"
+      },
+      "end": {
+        "date": "2026-06-29"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -350,8 +474,12 @@
       "summary": "Karl's birthday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-07-02" },
-      "end": { "date": "2026-07-03" },
+      "start": {
+        "date": "2026-07-02"
+      },
+      "end": {
+        "date": "2026-07-03"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -361,8 +489,12 @@
       "summary": "Col. Rene Capili's birthday",
       "description": null,
       "location": null,
-      "start": { "dateTime": "2026-07-02T09:00:00+08:00" },
-      "end": { "dateTime": "2026-07-02T10:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-07-02T09:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-07-02T10:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -372,8 +504,12 @@
       "summary": "Tita Arlene's birthday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-07-03" },
-      "end": { "date": "2026-07-04" },
+      "start": {
+        "date": "2026-07-03"
+      },
+      "end": {
+        "date": "2026-07-04"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -383,8 +519,12 @@
       "summary": "Sunday Mass",
       "description": null,
       "location": null,
-      "start": { "date": "2026-07-05" },
-      "end": { "date": "2026-07-06" },
+      "start": {
+        "date": "2026-07-05"
+      },
+      "end": {
+        "date": "2026-07-06"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -394,8 +534,12 @@
       "summary": "Raffy's birthday",
       "description": null,
       "location": null,
-      "start": { "dateTime": "2026-07-09T08:00:00+08:00" },
-      "end": { "dateTime": "2026-07-09T09:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-07-09T08:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-07-09T09:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -405,8 +549,12 @@
       "summary": "Waive Toyota Cc Annual Fee",
       "description": null,
       "location": null,
-      "start": { "dateTime": "2026-07-10T08:00:00+08:00" },
-      "end": { "dateTime": "2026-07-10T09:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-07-10T08:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-07-10T09:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -416,8 +564,12 @@
       "summary": "Sunday Mass",
       "description": null,
       "location": null,
-      "start": { "date": "2026-07-12" },
-      "end": { "date": "2026-07-13" },
+      "start": {
+        "date": "2026-07-12"
+      },
+      "end": {
+        "date": "2026-07-13"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -427,8 +579,12 @@
       "summary": "Mau's birthday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-07-13" },
-      "end": { "date": "2026-07-14" },
+      "start": {
+        "date": "2026-07-13"
+      },
+      "end": {
+        "date": "2026-07-14"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -438,8 +594,12 @@
       "summary": "Sunday Mass",
       "description": null,
       "location": null,
-      "start": { "date": "2026-07-19" },
-      "end": { "date": "2026-07-20" },
+      "start": {
+        "date": "2026-07-19"
+      },
+      "end": {
+        "date": "2026-07-20"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -449,8 +609,12 @@
       "summary": "Jessie's birthday",
       "description": null,
       "location": null,
-      "start": { "dateTime": "2026-07-23T08:00:00+08:00" },
-      "end": { "dateTime": "2026-07-23T09:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-07-23T08:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-07-23T09:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -460,8 +624,12 @@
       "summary": "Harris' birthday",
       "description": null,
       "location": null,
-      "start": { "dateTime": "2026-07-23T08:00:00+08:00" },
-      "end": { "dateTime": "2026-07-23T09:00:00+08:00" },
+      "start": {
+        "dateTime": "2026-07-23T08:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-07-23T09:00:00+08:00"
+      },
       "allDay": false,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -471,8 +639,12 @@
       "summary": "Gilbert Dy's birthday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-07-24" },
-      "end": { "date": "2026-07-25" },
+      "start": {
+        "date": "2026-07-24"
+      },
+      "end": {
+        "date": "2026-07-25"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -482,8 +654,12 @@
       "summary": "Sunday Mass",
       "description": null,
       "location": null,
-      "start": { "date": "2026-07-26" },
-      "end": { "date": "2026-07-27" },
+      "start": {
+        "date": "2026-07-26"
+      },
+      "end": {
+        "date": "2026-07-27"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -493,8 +669,12 @@
       "summary": "Ms. Jackie's bday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-07-28" },
-      "end": { "date": "2026-07-29" },
+      "start": {
+        "date": "2026-07-28"
+      },
+      "end": {
+        "date": "2026-07-29"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -504,8 +684,12 @@
       "summary": "VSN's bday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-07-29" },
-      "end": { "date": "2026-07-30" },
+      "start": {
+        "date": "2026-07-29"
+      },
+      "end": {
+        "date": "2026-07-30"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
@@ -515,8 +699,12 @@
       "summary": "Bro. Javy's birthday",
       "description": null,
       "location": null,
-      "start": { "date": "2026-07-31" },
-      "end": { "date": "2026-08-01" },
+      "start": {
+        "date": "2026-07-31"
+      },
+      "end": {
+        "date": "2026-08-01"
+      },
       "allDay": true,
       "color": "#3b82f6",
       "source": "google_calendar"
