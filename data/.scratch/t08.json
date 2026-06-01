@@ -1,0 +1,15 @@
+{
+  "id": "19e747b145c8dbbd",
+  "sender": "no-reply@zohobooks.com",
+  "senderName": "no-reply",
+  "date": "2026-05-29T16:04:41Z",
+  "subject": "The stock in your organization Revlv Solutions Inc has reached the reorder point.",
+  "snippet": "Hi there, The stock for the following items has fallen below the reorder point in Revlv Solutions Inc. You can restock your items by issuing purchase orders to the respective vendors in Zoho Inventory.",
+  "body": "Hi there,\n\nThe stock for the following items has fallen below the reorder point in Revlv Solutions Inc. You can restock your items by issuing purchase orders to the respective vendors in Zoho Inventory.\n\nProduct Name | Quantity Left\n\nStarlink Ethernet Adapter SKU : 01519231-502 — 0\n\nRegards\n\nTeam Zoho",
+  "labels": [
+    "INBOX"
+  ],
+  "isUnread": false,
+  "isImportant": false,
+  "isVip": false
+}

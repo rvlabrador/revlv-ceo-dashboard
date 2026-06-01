@@ -1,0 +1,100 @@
+#!/bin/bash
+# ═══════════════════════════════════════════════════════════════
+#  Revlv CEO Dashboard — Desktop Launcher
+#  Self-contained: installs the server daemon, starts it if
+#  needed, and opens Chrome in full-screen app mode.
+# ═══════════════════════════════════════════════════════════════
+
+# Absolute PATH — essential when running from a .app bundle
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/homebrew/bin"
+
+PROJECT_DIR="$HOME/Documents/Claude/Projects/revlv-ceo-dashboard"
+PORT=3000
+DASH_URL="http://localhost:${PORT}/?fresh=1"
+PLIST_NAME="com.revlv.ceodashboard"
+PLIST_SRC="${PROJECT_DIR}/${PLIST_NAME}.plist"
+PLIST_DEST="$HOME/Library/LaunchAgents/${PLIST_NAME}.plist"
+CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+LOG="/tmp/revlv-dashboard.log"
+PYTHON="/usr/bin/python3"
+
+# ── Helper: show an error dialog and quit ────────────────────
+die() {
+    /usr/bin/osascript -e "display alert \"Revlv CEO Dashboard\" message \"$1\" as critical" 2>/dev/null
+    exit 1
+}
+
+# ── 1. Verify project folder exists ──────────────────────────
+[ -d "$PROJECT_DIR" ] || die "Dashboard folder not found.\n\nExpected:\n~/Documents/Claude/Projects/revlv-ceo-dashboard\n\nMove the project folder there and try again."
+
+# ── 2. Auto-install LaunchAgent (runs once silently) ─────────
+if [ ! -f "$PLIST_DEST" ] && [ -f "$PLIST_SRC" ]; then
+    mkdir -p "$HOME/Library/LaunchAgents"
+    cp "$PLIST_SRC" "$PLIST_DEST"
+    chmod 644 "$PLIST_DEST"
+    # Try modern bootstrap first, then legacy load
+    /bin/launchctl bootstrap "gui/$(/usr/bin/id -u)" "$PLIST_DEST" 2>/dev/null || \
+    /bin/launchctl load -w "$PLIST_DEST" 2>/dev/null || true
+    sleep 1.5
+fi
+
+# ── 3. Start server if not responding ────────────────────────
+if ! /usr/bin/curl -sf --connect-timeout 2 "http://localhost:${PORT}/" -o /dev/null; then
+
+    # Kill anything already on the port
+    /usr/sbin/lsof -ti tcp:${PORT} 2>/dev/null | xargs /bin/kill -9 2>/dev/null
+    sleep 0.4
+
+    # Try restarting via launchctl first
+    if [ -f "$PLIST_DEST" ]; then
+        /bin/launchctl kickstart -k "gui/$(/usr/bin/id -u)/${PLIST_NAME}" 2>/dev/null || \
+        /bin/launchctl start "${PLIST_NAME}" 2>/dev/null || true
+        sleep 1.5
+    fi
+
+    # If still not up, start Python directly with full detachment
+    # The key: run in a subshell + nohup + disown so it outlives this script
+    if ! /usr/bin/curl -sf --connect-timeout 2 "http://localhost:${PORT}/" -o /dev/null; then
+        (
+            cd "$PROJECT_DIR" || exit 1
+            nohup "$PYTHON" "$PROJECT_DIR/server.py" >> "$LOG" 2>&1 &
+            disown $!
+        )
+
+        # Wait up to 10 seconds for the server to respond
+        for i in $(seq 1 20); do
+            sleep 0.5
+            /usr/bin/curl -sf --connect-timeout 1 "http://localhost:${PORT}/" -o /dev/null && break
+        done
+    fi
+fi
+
+# ── 4. Final check before opening Chrome ─────────────────────
+/usr/bin/curl -sf --connect-timeout 3 "http://localhost:${PORT}/" -o /dev/null || \
+    die "Server could not start on port ${PORT}.\n\nOpen Terminal and run:\nbash ~/Documents/Claude/Projects/revlv-ceo-dashboard/setup.sh\n\nThen double-click this shortcut again."
+
+# ── 5. Open Chrome in full-screen App mode ───────────────────
+#   --app=URL         strips browser chrome (no tabs/address bar)
+#   --start-fullscreen fills the screen on open
+#   --new-window      forces fresh window → fresh sessionStorage → login screen
+if [ -f "$CHROME" ]; then
+    "$CHROME" \
+        --app="$DASH_URL" \
+        --start-fullscreen \
+        --new-window \
+        --disable-translate \
+        --no-first-run \
+        --noerrdialogs \
+        --disable-features=TranslateUI \
+        2>/dev/null &
+    disown $!
+else
+    /usr/bin/open -na "Google Chrome" --args \
+        --app="$DASH_URL" \
+        --start-fullscreen \
+        --new-window \
+        --disable-translate \
+        --no-first-run \
+        --noerrdialogs || \
+        die "Google Chrome not found.\n\nInstall Chrome from https://google.com/chrome and try again."
+fi

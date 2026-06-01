@@ -1,0 +1,17 @@
+# ── Revlv CEO Dashboard — git ignore ──
+# OS / editor noise
+.DS_Store
+**/.DS_Store
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Large local snapshot archives (kept on disk, not in git history)
+backups/*.zip
+
+# Keep the dashboard state export (vault + settings) so it IS backed up to GitHub
+!backups/dashboard-state.json
+
+# Local server logs (if ever written into the project)
+*.log

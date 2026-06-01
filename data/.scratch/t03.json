@@ -1,0 +1,15 @@
+{
+  "id": "19e7543de7590ed1",
+  "sender": "no-reply@accounts.google.com",
+  "senderName": "no-reply",
+  "date": "2026-05-29T19:44:01Z",
+  "subject": "Security alert",
+  "snippet": "You allowed Claude for Google Calendar access to some of your Google Account data ryanlabs@gmail.com If you didn't allow Claude for Google Calendar access to some of your Google Account data,",
+  "body": "[image: Google]\nYou allowed Claude for Google Calendar access to some of your Google\nAccount data\n\nryanlabs@gmail.com\n\nIf you didn’t allow Claude for Google Calendar access to some of your\nGoogle Account data, someone else may be trying to access your Google\nAccount data.\n\nTake a moment now to check your account activity and secure your account.\nCheck activity\nTo make changes at any time to the access that Claude for Google Calendar\nhas to your data, go to your Google Account\nYou can also see security activity at\nhttps://myaccount.google.com/notifications\nYou received this email to let you know about important changes to your\nGoogle Account and services.\n© 2026 Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA",
+  "labels": [
+    "INBOX"
+  ],
+  "isUnread": false,
+  "isImportant": false,
+  "isVip": false
+}
