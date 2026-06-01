@@ -837,6 +837,10 @@ html,body{height:100vh;overflow:hidden}
 .chat-launch-sub{font-size:11px;color:var(--text3)}
 .chat-launch .btn{margin-top:4px}
 .chat-launch-note{font-size:10px;color:var(--text3);max-width:250px;line-height:1.5;margin-top:2px}
+/* Unread badges on chat widgets */
+.chat-badge{background:var(--red);color:#fff;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;padding:0 5px;margin-left:6px;box-shadow:0 0 0 2px var(--card)}
+.chat-launch-icon{position:relative}
+.chat-launch-badge{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;padding:0 5px;box-shadow:0 0 0 2px var(--card)}
 
 /* Below the single-column breakpoint, allow the page to scroll again */
 @media(max-width:900px){
@@ -1086,6 +1090,13 @@ brew install ffmpeg</code>
 
         <!-- Hidden field for chat ID -->
         <input type="hidden" id="setup_tgChatId">
+
+        <!-- Connection test / diagnostics -->
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn-sm secondary" style="font-size:11px" onclick="testTelegram()">🔌 Test Telegram Connection</button>
+          <span id="tgTestStatus" style="font-size:11px;display:none"></span>
+        </div>
+        <div style="font-size:10px;color:var(--text3);margin-top:6px;line-height:1.5">Verifies the token, shows your bot's name, and detects a webhook (the usual reason a bot never connects — the dashboard clears it automatically).</div>
       </div>
 
       <!-- HOW TO USE -->
@@ -1635,6 +1646,7 @@ Speed + alignment = unstoppable.</textarea>
     <span class="strip-quote" id="cultureQuote">Loading today's value...</span>
     <span class="strip-value">Today's Focus: <span id="cultureValueLabel" style="color:var(--gold);font-weight:700"></span></span>
     <span class="strip-lastsync" id="lastSync"></span>
+    <span class="conn-item" id="buildStamp" title="Dashboard build — confirms the latest file is loaded" style="opacity:.55;font-size:9px;margin-left:8px">build tg-fix-4</span>
     <!-- preserved for JS, not shown in the slim strip -->
     <span id="cultureMission" style="display:none">Tomorrow's Solutions. Now.</span>
     <span id="cultureStrategySnip" style="display:none"></span>
@@ -1678,7 +1690,8 @@ Speed + alignment = unstoppable.</textarea>
                 <span class="card-icon">📲</span>
                 <h3>Telegram Dictations</h3>
                 <span class="status-dot" id="dot_tg2" style="margin-left:auto"></span>
-                <button class="btn-sm secondary" onclick="pollTelegram()">↻</button>
+                <button class="btn-sm secondary" style="font-size:10px" onclick="telegramDiagnose()" title="Test / fix the Telegram connection">🔌 Test</button>
+                <button class="btn-sm secondary" onclick="pollTelegram()" title="Refresh now">↻</button>
               </div>
               <div id="tgNotesList">
                 <div class="empty-state tg-help" style="text-align:left;padding:12px 14px">
@@ -1726,11 +1739,12 @@ Speed + alignment = unstoppable.</textarea>
               <div class="card-header">
                 <span class="card-icon">💬</span>
                 <h3>Messenger</h3>
+                <span class="chat-badge" id="badge_messenger" style="display:none"></span>
                 <div style="flex:1"></div>
                 <button class="btn-sm secondary" style="font-size:10px" onclick="openChatApp('messenger')" title="Open Facebook Messenger in a window">Open ↗</button>
               </div>
               <div class="chat-launch">
-                <div class="chat-launch-icon" style="background:linear-gradient(135deg,#00B2FF,#006AFF)">💬</div>
+                <div class="chat-launch-icon" style="background:linear-gradient(135deg,#00B2FF,#006AFF)"><span class="chat-launch-badge" id="badgebig_messenger" style="display:none"></span>💬</div>
                 <div class="chat-launch-title">Facebook Messenger</div>
                 <div class="chat-launch-sub">Your conversations, one click away.</div>
                 <button class="btn" onclick="openChatApp('messenger')">💬 Open Messenger</button>
@@ -1743,11 +1757,12 @@ Speed + alignment = unstoppable.</textarea>
               <div class="card-header">
                 <span class="card-icon">🟢</span>
                 <h3>Google Chat</h3>
+                <span class="chat-badge" id="badge_chat" style="display:none"></span>
                 <div style="flex:1"></div>
                 <button class="btn-sm secondary" style="font-size:10px" onclick="openChatApp('chat')" title="Open Google Chat in a window">Open ↗</button>
               </div>
               <div class="chat-launch">
-                <div class="chat-launch-icon" style="background:linear-gradient(135deg,#00ac47,#2684ff,#ffba00)">🟢</div>
+                <div class="chat-launch-icon" style="background:linear-gradient(135deg,#00ac47,#2684ff,#ffba00)"><span class="chat-launch-badge" id="badgebig_chat" style="display:none"></span>🟢</div>
                 <div class="chat-launch-title">Google Chat</div>
                 <div class="chat-launch-sub">Spaces &amp; direct messages.</div>
                 <button class="btn" onclick="openChatApp('chat')">🟢 Open Google Chat</button>
@@ -1777,7 +1792,7 @@ Speed + alignment = unstoppable.</textarea>
               </div>
 
               <!-- GOALS TAB -->
-              <div id="ltab_content_goals" class="ltab-content" style="max-height:140px;overflow-y:auto;padding:14px">
+              <div id="ltab_content_goals" class="ltab-content" style="max-height:300px;overflow-y:auto;padding:14px">
                 <div style="margin-bottom:14px">
                   <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
                     <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#4c1d95,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">1</div>
@@ -1834,7 +1849,7 @@ Speed + alignment = unstoppable.</textarea>
               </div>
 
               <!-- STRATEGY COMPASS TAB -->
-              <div id="ltab_content_compass" class="ltab-content" style="display:none;max-height:140px;overflow-y:auto;padding:14px">
+              <div id="ltab_content_compass" class="ltab-content" style="display:none;max-height:300px;overflow-y:auto;padding:14px">
                 <div style="font-size:10px;color:var(--text3);margin-bottom:10px;font-style:italic">Four Leadership Resets — from HBS OPM Unit 1</div>
                 <div class="lead-reset-card" style="background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.2);border-radius:8px;padding:10px;margin-bottom:8px">
                   <div style="font-size:13px;margin-bottom:4px">🛤️</div>
@@ -1864,14 +1879,14 @@ Speed + alignment = unstoppable.</textarea>
               </div>
 
               <!-- UNIT 2 TRACKER TAB -->
-              <div id="ltab_content_unit2" class="ltab-content" style="display:none;max-height:140px;overflow-y:auto;padding:12px">
+              <div id="ltab_content_unit2" class="ltab-content" style="display:none;max-height:300px;overflow-y:auto;padding:12px">
                 <div style="font-size:10px;color:#a78bfa;font-weight:700;margin-bottom:4px">COMMITMENTS BY UNIT 2 — HBS OPM 68.1</div>
                 <div style="font-size:10px;color:var(--text3);margin-bottom:12px">Track what Revlv must achieve before Ryan returns for Unit 2. Click to mark complete.</div>
                 <div id="unit2List"></div>
               </div>
 
               <!-- PRINCIPLES TAB -->
-              <div id="ltab_content_principles" class="ltab-content" style="display:none;max-height:140px;overflow-y:auto;padding:12px">
+              <div id="ltab_content_principles" class="ltab-content" style="display:none;max-height:300px;overflow-y:auto;padding:12px">
                 <div id="principlesList"></div>
               </div>
 
@@ -2050,7 +2065,7 @@ function initApp(){
     .forEach(fn=>{try{fn();}catch(e){console.warn('Widget render failed:',fn.name,e);}});
 
   // ── STEP 3: UI setup ──
-  [loadOps,initLeadershipHQ,updateGreeting,setTodayDate,scheduleGospelDailyRefresh]
+  [loadOps,initLeadershipHQ,updateGreeting,setTodayDate,scheduleGospelDailyRefresh,renderChatBadges]
     .forEach(fn=>{try{fn();}catch(e){console.warn('UI setup failed:',fn.name,e);}});
 
   // ── STEP 4: Network / server connections ──
@@ -2950,31 +2965,131 @@ function updateFocusRing(pct){
 }
 
 // ─── TELEGRAM ───
+let _tgErrShown=false;
+function _tgDot(state, title){
+  setDotStatus('telegram', state);
+  const dt=document.getElementById('dot_tg2');
+  if(dt){ dt.className='status-dot '+state; if(title) dt.title=title; }
+}
 async function pollTelegram(){
-  if(!CFG.tgToken||!CFG.tgChatId){
-    setDotStatus('telegram','disconnected');
-    document.getElementById('dot_tg2').className='status-dot disconnected';
+  // Only the token is required to poll. The Chat ID is captured automatically from
+  // your first message (below), so we never block polling waiting for it.
+  if(!CFG.tgToken){
+    _tgDot('disconnected','Telegram not configured — add your bot token in Settings → Telegram.');
     return;
   }
   setDotStatus('telegram','pending');
+  let proxyMissing=false;
   try{
-    const r=await fetch(`https://api.telegram.org/bot${CFG.tgToken}/getUpdates?offset=${tgOffset}&limit=10`);
-    const d=await r.json();
-    if(!d.ok)throw new Error(d.description);
-    setDotStatus('telegram','connected');
-    document.getElementById('dot_tg2').className='status-dot connected';
+    let d=null;
+    // Preferred: proxy through the local server (no browser CORS / network limits).
+    try{
+      const pr=await fetch('/telegram',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({token:CFG.tgToken, offset:tgOffset})});
+      if(pr.status===404){ proxyMissing=true; }      // server predates the /telegram route
+      else if(pr.ok){
+        const body=await pr.json();
+        if(body && typeof body.ok!=='undefined') d=body;   // genuine Telegram payload
+      }
+    }catch(proxyErr){ /* proxy unreachable — fall back to a direct call */ }
+    if(!d){
+      // Fallback: call Telegram directly from the browser (works only if Telegram
+      // allows CORS from this origin; many setups block it — hence the proxy above).
+      try{
+        const r=await fetch(`https://api.telegram.org/bot${CFG.tgToken}/getUpdates?offset=${tgOffset}&limit=20&timeout=0`);
+        d=await r.json();
+      }catch(directErr){
+        throw new Error(proxyMissing ? 'server-restart-needed' : 'network-blocked');
+      }
+    }
+    if(!d||!d.ok) throw new Error((d&&(d.description||d.error))||'Telegram API error');
+    _tgDot('connected','Telegram connected'+(d._webhookCleared?' (auto-cleared a webhook)':''));
+    _tgErrShown=false;
     const msgs=d.result||[];
     if(msgs.length>0){
       tgOffset=msgs[msgs.length-1].update_id+1;
+      // Auto-capture the Chat ID from the newest message if we don't have one yet.
+      if(!CFG.tgChatId){
+        for(let i=msgs.length-1;i>=0;i--){
+          const m=msgs[i].message;
+          if(m&&m.chat&&m.chat.id){
+            CFG.tgChatId=String(m.chat.id);
+            try{ saveConfig(); }catch(e){}
+            const hp=document.getElementById('setup_tgChatId'); if(hp) hp.value=CFG.tgChatId;
+            toast('✅','Telegram Linked','Chat ID captured — Telegram is now connected.');
+            break;
+          }
+        }
+      }
       msgs.forEach(u=>{
-        if(u.message&&String(u.message.chat.id)===String(CFG.tgChatId)){
+        // Once a Chat ID is known, only process that chat; before that, accept the first sender.
+        if(u.message && (!CFG.tgChatId || String(u.message.chat.id)===String(CFG.tgChatId))){
           processTgMessage(u.message);
         }
       });
     }
   }catch(e){
-    setDotStatus('telegram','disconnected');
-    document.getElementById('dot_tg2').className='status-dot disconnected';
+    let msg=(e&&e.message)||'unreachable';
+    let hint;
+    if(msg==='server-restart-needed'||msg==='network-blocked'){
+      msg='dashboard server needs updating';
+      hint='Restart the dashboard server so Telegram can route through it: run start.sh (or re-run install.sh), then hard-reload.';
+    } else if(/conflict|webhook/i.test(msg)){
+      hint='A webhook was set on this bot (409). The server now auto-clears it — if it persists, run start.sh to update the server.';
+    } else if(/unauthorized|401|not found|bot/i.test(msg)){
+      hint='The bot token looks invalid. Re-check it in Settings → Telegram.';
+    } else {
+      hint='Check the bot token & Chat ID in Settings → Telegram, and message the bot at least once.';
+    }
+    _tgDot('disconnected','Telegram: '+msg+' — '+hint);
+    if(!_tgErrShown){ _tgErrShown=true; toast('⚠️','Telegram not updating', msg+' — '+hint); }
+  }
+}
+
+// Main Telegram card: one-click diagnose/fix using the saved token (no Settings needed).
+async function telegramDiagnose(){
+  const token=(CFG.tgToken||'').trim();
+  if(!token){ toast('⚠️','Telegram','No bot token saved. Open Settings → Telegram and paste your bot token.'); return; }
+  toast('⏳','Telegram','Testing the connection…');
+  try{
+    const r=await fetch('/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,action:'diag'})});
+    if(r.status===404){ toast('⚠️','Telegram','Dashboard server is outdated — run start.sh (or re-run install.sh), then reload.'); return; }
+    const j=await r.json();
+    const me=j&&j.getMe, wh=j&&j.webhook&&j.webhook.result;
+    if(!me||!me.ok){ toast('❌','Telegram','Token rejected: '+((me&&me.description)||'invalid')+'. Re-check it in Settings → Telegram.'); return; }
+    const uname=(me.result&&me.result.username)?('@'+me.result.username):'your bot';
+    if(wh && wh.url){ toast('⚠️','Telegram','Connected as '+uname+', but a webhook is set — clearing it now. Tap ↻ again in a few seconds.'); pollTelegram(); }
+    else if(!CFG.tgChatId){ toast('ℹ️','Telegram','Token OK ('+uname+'). Linking your Chat ID — if you have messaged the bot it will connect now; if not, send it any message.'); pollTelegram(); }
+    else { toast('✅','Telegram','Connected as '+uname+' — polling now.'); pollTelegram(); }
+  }catch(e){ toast('❌','Telegram',((e&&e.message)||'Could not test')+' — restart the server (start.sh).'); }
+}
+// Settings → Telegram: verify the token, detect a webhook, show the bot name.
+async function testTelegram(){
+  const token=(document.getElementById('setup_tgToken').value||CFG.tgToken||'').trim();
+  const st=document.getElementById('tgTestStatus');
+  if(!st) return;
+  const show=(c,m)=>{ st.style.display='block'; st.style.color=c; st.innerHTML=m; };
+  if(!token){ show('var(--gold)','⚠️ Enter your bot token first.'); return; }
+  show('var(--text3)','<span class="spinner"></span> Testing…');
+  try{
+    let j;
+    const r=await fetch('/telegram',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({token, action:'diag'})});
+    if(r.status===404){ show('var(--gold)','⚠️ Dashboard server is outdated — run start.sh (or re-run install.sh) to enable Telegram, then test again.'); return; }
+    j=await r.json();
+    const me=j&&j.getMe, wh=j&&j.webhook&&j.webhook.result;
+    if(!me||!me.ok){
+      show('var(--red)','❌ Token rejected: '+escHtml((me&&me.description)||'invalid token')+'. Re-check it from BotFather.');
+      return;
+    }
+    const uname=(me.result&&me.result.username)?('@'+me.result.username):'your bot';
+    if(wh && wh.url){
+      show('var(--gold)','⚠️ Connected as <strong>'+escHtml(uname)+'</strong>, but a <strong>webhook is set</strong> ('+escHtml(wh.url)+') which blocks polling. The dashboard auto-clears it on the next sync — tap ↻ on the Telegram card, then Test again.');
+    } else {
+      show('var(--green)','✅ Connected as <strong>'+escHtml(uname)+'</strong> — no webhook, polling will work.'+(CFG.tgChatId?'':' Now message the bot once so your Chat ID is detected.'));
+    }
+  }catch(e){
+    show('var(--red)','❌ '+escHtml((e&&e.message)||'Could not test')+' — if it persists, restart the server (start.sh).');
   }
 }
 
@@ -3794,10 +3909,21 @@ const WIDGET_SIZES=['normal','compact','collapsed'];
 const SIZE_ICON={normal:'↕',compact:'⊟',collapsed:'⊞'};
 const SIZE_LABEL={normal:'Normal','compact':'Compact','collapsed':'Collapsed'};
 
+// ─── BUILT-IN DEFAULT LAYOUT ───
+// Applied only on a fresh profile (no saved layout yet) — e.g. after a new install,
+// a cleared browser, or a new Mac — so the dashboard opens in Ryan's preferred
+// arrangement. Once the user rearranges, their saved layout always takes precedence.
+const DEFAULT_LAYOUT={"col_0":["gospelCard","card_calendar","card_messenger","card_chat"],"col_1":["card_leadership"],"col_2":["card_ops","card_telegram","card_todo","card_goals"]};
+const DEFAULT_WIDGET_STATE={"gospelCard":{"visible":false},"card_goals":{"visible":false}};
+const DEFAULT_WIDGET_GROUPS=[];
+
 function loadWidgetState(){
-  try{widgetState=JSON.parse(localStorage.getItem('revlv_widget_state')||'{}');}
+  // Use the saved state if present; otherwise seed the built-in default layout.
+  const _ws=localStorage.getItem('revlv_widget_state');
+  const _wg=localStorage.getItem('revlv_widget_groups');
+  try{widgetState=JSON.parse(_ws!=null?_ws:JSON.stringify(DEFAULT_WIDGET_STATE));}
   catch(e){widgetState={};}
-  try{widgetGroups=JSON.parse(localStorage.getItem('revlv_widget_groups')||'[]');}
+  try{widgetGroups=JSON.parse(_wg!=null?_wg:JSON.stringify(DEFAULT_WIDGET_GROUPS));}
   catch(e){widgetGroups=[];}
   // Migrate old auto-generated IDs (card_xxx_N) to new stable fixed IDs
   // This runs once after upgrading to fixed IDs so no saved state is lost
@@ -4245,8 +4371,8 @@ function saveLayout(){
 function restoreLayout(){
   try{
     const saved=localStorage.getItem('revlv_layout');
-    if(!saved)return;
-    const layout=JSON.parse(saved);
+    // Fresh profile → fall back to the built-in default arrangement.
+    const layout=saved?JSON.parse(saved):DEFAULT_LAYOUT;
     const cols=document.querySelectorAll('.main .col');
     Object.keys(layout).forEach(key=>{
       const colIdx=parseInt(key.replace('col_',''));
@@ -4594,6 +4720,23 @@ function openChatApp(key){
   const left=Math.max(0,(screen.availWidth||w)-w-24), top=64;
   const win=window.open(url,'revlv_'+key,`width=${w},height=${h},left=${left},top=${top}`);
   if(win){try{win.focus();}catch(e){}} else { window.open(url,'_blank','noopener'); }
+  // Opening a chat clears its unread badge.
+  setChatUnread(key, 0);
+}
+// Unread badges on the chat widgets. These are TEST values until a live source is
+// connected (Messenger has no public unread API; Google Chat would need an OAuth
+// read-state integration). Update at runtime via setChatUnread('messenger'|'chat', n).
+let CHAT_UNREAD={messenger:3, chat:2};
+function setChatUnread(key,count){ CHAT_UNREAD[key]=Math.max(0,Number(count)||0); renderChatBadges(); }
+function renderChatBadges(){
+  ['messenger','chat'].forEach(k=>{
+    const n=Math.max(0,Number(CHAT_UNREAD[k])||0);
+    const txt=n>99?'99+':String(n);
+    ['badge_'+k,'badgebig_'+k].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el){ el.textContent=txt; el.style.display=n>0?'':'none'; }
+    });
+  });
 }
 // One-time cleanup of legacy Gmail/email localStorage keys
 function _cleanupLegacyEmailStorage(){

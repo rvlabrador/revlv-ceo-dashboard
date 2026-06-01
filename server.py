@@ -321,6 +321,57 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         except Exception as e:  # noqa: BLE001
             self._send_json(500, {"error": str(e)})
 
+    def _tg_call(self, token, method, query=""):
+        """Call a Telegram Bot API method server-side and return parsed JSON."""
+        url = f"https://api.telegram.org/bot{token}/{method}"
+        if query:
+            url += "?" + query
+        raw = _http_get(url, 25)
+        try:
+            return json.loads(raw.decode("utf-8"))
+        except Exception:
+            return {"ok": False, "error": "invalid response from Telegram"}
+
+    def _handle_telegram_updates(self):
+        """Proxy Telegram getUpdates server-side so the browser never has to call
+        api.telegram.org directly (avoids CORS / network blocking). The bot token is
+        used only for these outbound calls.
+
+        Supports {"action":"diag"} which returns getMe + getWebhookInfo so the
+        dashboard can tell the user exactly what's wrong (bad token, webhook set, etc.).
+        Also auto-removes a webhook when getUpdates is blocked by a 409 conflict, which
+        is the most common reason a bot 'never connects'."""
+        try:
+            p = self._json_body()
+            token = (p.get("token") or "").strip()
+            action = (p.get("action") or "").strip()
+            if not token:
+                self._send_json(400, {"ok": False, "error": "missing token"})
+                return
+
+            if action == "diag":
+                me = self._tg_call(token, "getMe")
+                wh = self._tg_call(token, "getWebhookInfo")
+                self._send_json(200, {"ok": bool(me.get("ok")), "getMe": me, "webhook": wh})
+                return
+
+            try:
+                offset = int(p.get("offset") or 0)
+            except Exception:
+                offset = 0
+            data = self._tg_call(token, "getUpdates", f"offset={offset}&limit=20&timeout=0")
+
+            # A webhook makes getUpdates fail with 409 forever — auto-clear it and retry once.
+            desc = str(data.get("description", "")).lower()
+            if (not data.get("ok")) and (data.get("error_code") == 409 or "webhook" in desc):
+                self._tg_call(token, "deleteWebhook", "drop_pending_updates=false")
+                data = self._tg_call(token, "getUpdates", f"offset={offset}&limit=20&timeout=0")
+                data["_webhookCleared"] = True
+
+            self._send_json(200, data)
+        except Exception as e:  # noqa: BLE001
+            self._send_json(502, {"ok": False, "error": str(e)})
+
     def do_POST(self):
         # CSRF / cross-origin guard: reject POSTs that carry a non-local Origin header.
         if not self._origin_allowed():
@@ -329,6 +380,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         route = self.path.split("?")[0]
         if route == "/queue-meeting":
             self._handle_queue_meeting()
+            return
+        if route == "/telegram":
+            self._handle_telegram_updates()
             return
         if route == "/save-backup":
             self._handle_save_backup()
