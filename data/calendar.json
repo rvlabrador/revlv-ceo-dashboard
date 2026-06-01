@@ -1,54 +1,9 @@
 {
-  "lastUpdated": "2026-06-01T02:33:10Z",
+  "lastUpdated": "2026-06-01T16:31:04Z",
   "source": "Google Calendar MCP — ryanlabs@gmail.com",
   "account": "ryanlabs@gmail.com",
   "syncNote": "Live sync via Google Calendar MCP connector",
   "events": [
-    {
-      "id": "37altnbodtbdfspa2dtejajmp8_20260601",
-      "summary": "Binggz' birthday",
-      "description": null,
-      "location": null,
-      "start": {
-        "date": "2026-06-01"
-      },
-      "end": {
-        "date": "2026-06-02"
-      },
-      "allDay": true,
-      "color": "#3b82f6",
-      "source": "google_calendar"
-    },
-    {
-      "id": "7gkcth20p61ckjqg8u6au6grc0",
-      "summary": "Flight to Butuan (5J 3093)",
-      "description": null,
-      "location": "Manila MNL",
-      "start": {
-        "dateTime": "2026-06-01T06:20:00+08:00"
-      },
-      "end": {
-        "dateTime": "2026-06-01T08:05:00+08:00"
-      },
-      "allDay": false,
-      "color": "#3b82f6",
-      "source": "google_calendar"
-    },
-    {
-      "id": "c4rj0p9jc8pjgb9kckrjib9k6gr6cb9p6coj8bb26crm4p9k70rjec1g60",
-      "summary": "Meet with Capt Pacis ",
-      "description": null,
-      "location": "TBA",
-      "start": {
-        "dateTime": "2026-06-01T15:00:00+08:00"
-      },
-      "end": {
-        "dateTime": "2026-06-01T16:00:00+08:00"
-      },
-      "allDay": false,
-      "color": "#3b82f6",
-      "source": "google_calendar"
-    },
     {
       "id": "c4qj0dhl74oj2b9p6krm8b9k71i34b9o6co6ab9lc8q6acj66kpmad35cg",
       "summary": "Pililla Rizal celebration for Binggz",
@@ -82,7 +37,7 @@
     {
       "id": "tapgp2h7n976819p0keld9ha80",
       "summary": "Flight to Manila (5J 3086)",
-      "description": null,
+      "description": "To see detailed information for automatically created events like this one, use the official Google Calendar app. https://g.co/calendar\n\nThis event was created from an email you received in Gmail. https://mail.google.com/mail?extsrc=cal&plid=ACUX6DMI_L7xfvZoUxA0YPuqrT9qUOLkzntLUfc\n",
       "location": "Butuan BXU",
       "start": {
         "dateTime": "2026-06-02T11:40:00+08:00"
@@ -112,7 +67,7 @@
     {
       "id": "fon348ornacs8upjvo4phbuq1g",
       "summary": "Flight to Iloilo (5J 447)",
-      "description": null,
+      "description": "To see detailed information for automatically created events like this one, use the official Google Calendar app. https://g.co/calendar\n\nThis event was created from an email you received in Gmail. https://mail.google.com/mail?extsrc=cal&plid=ACUX6DPVd_-ULQgb4iTCEbqQfrlxQJQUhvBIqcY\n",
       "location": "Manila MNL",
       "start": {
         "dateTime": "2026-06-03T05:40:00+08:00"
@@ -127,7 +82,7 @@
     {
       "id": "cldla9pjt14p6tf147m4d3g9c4",
       "summary": "Flight to Manila (5J 458)",
-      "description": null,
+      "description": "To see detailed information for automatically created events like this one, use the official Google Calendar app. https://g.co/calendar\n\nThis event was created from an email you received in Gmail. https://mail.google.com/mail?extsrc=cal&plid=ACUX6DPVd_-ULQgb4iTCEbqQfrlxQJQUhvBIqcY\n",
       "location": "Iloilo ILO",
       "start": {
         "dateTime": "2026-06-03T18:30:00+08:00"
@@ -170,21 +125,6 @@
       "source": "google_calendar"
     },
     {
-      "id": "70sj6c9l6dj38bb5cgr32b9kc8o34bb165i6ab9o68omachj6oqjicr66g",
-      "summary": "Meet with Mayor Caesar",
-      "description": null,
-      "location": "Newport",
-      "start": {
-        "date": "2026-06-06"
-      },
-      "end": {
-        "date": "2026-06-07"
-      },
-      "allDay": true,
-      "color": "#3b82f6",
-      "source": "google_calendar"
-    },
-    {
       "id": "c4r36o9g6krmabb16cs3ab9k75hjibb270oj6b9j6lijec1kc5hjidr66s_20260606",
       "summary": "Atty Buloy's bday",
       "description": null,
@@ -209,6 +149,21 @@
       },
       "end": {
         "dateTime": "2026-06-06T07:00:00+08:00"
+      },
+      "allDay": false,
+      "color": "#3b82f6",
+      "source": "google_calendar"
+    },
+    {
+      "id": "70sj6c9l6dj38bb5cgr32b9kc8o34bb165i6ab9o68omachj6oqjicr66g",
+      "summary": "Meet with Mayor Caesar",
+      "description": null,
+      "location": "Newport",
+      "start": {
+        "dateTime": "2026-06-06T11:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-06T12:00:00+08:00"
       },
       "allDay": false,
       "color": "#3b82f6",
@@ -260,6 +215,21 @@
       "source": "google_calendar"
     },
     {
+      "id": "6hhmacphckrjcb9jckpm2b9kcoo66b9pccs6cb9o70p30eb46hhj4cj5cc",
+      "summary": "Meet with Dos and clients",
+      "description": null,
+      "location": "BGC area",
+      "start": {
+        "dateTime": "2026-06-08T16:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-08T17:00:00+08:00"
+      },
+      "allDay": false,
+      "color": "#3b82f6",
+      "source": "google_calendar"
+    },
+    {
       "id": "6oqm8c9m6gq36b9n61i6cb9k74s30bb16dj3abb460rj2d1j68ojgp9pck_20260610T000000Z",
       "summary": "Waive World Cc Annual Fee",
       "description": null,
@@ -269,6 +239,21 @@
       },
       "end": {
         "dateTime": "2026-06-10T09:00:00+08:00"
+      },
+      "allDay": false,
+      "color": "#3b82f6",
+      "source": "google_calendar"
+    },
+    {
+      "id": "64pmae326hj3abb270rjcb9kcko64b9p70sj8bb16gp66cr574sjee1n70",
+      "summary": "Meet with Atty Gerry and Atty Jun",
+      "description": null,
+      "location": "Kimpura, Greenbelt 5",
+      "start": {
+        "dateTime": "2026-06-11T11:00:00+08:00"
+      },
+      "end": {
+        "dateTime": "2026-06-11T12:00:00+08:00"
       },
       "allDay": false,
       "color": "#3b82f6",
@@ -412,7 +397,7 @@
     {
       "id": "_60q30c1g60o30e1i60o4ac1g60rj8gpl88rj2c1h84s34h9g60s30c1g60o30c1g6srjici16d2j0dpn8ksk8gpg64o30c1g60o30c1g60o30c1g60o32c1g60o30c1g890jaea68l0k2gho6d348h1k8cs4ccq1752jie9k6krjeh9h6kp0",
       "summary": "Ryan and Bill 3rd One-on-One",
-      "description": "Microsoft Teams meeting. Join: https://teams.microsoft.com/meet/251749101835067?p=1abwcOcaRkWJs09utq Meeting ID: 251 749 101 835 067 Passcode: g2Jy6tv2",
+      "description": "\n\n________________________________________________________________________________\nMicrosoft Teams meeting\nJoin: https://teams.microsoft.com/meet/251749101835067?p=1abwcOcaRkWJs09utq\nMeeting ID: 251 749 101 835 067\nPasscode: g2Jy6tv2\n________________________________\nNeed help?<https://aka.ms/JoinTeamsMeeting?omkt=en-US> | System reference<https://teams.microsoft.com/l/meetup-join/19%3ameeting_MTk2Y2E1OTgtN2JlYy00MzE1LWIxZmItMmNkN2YwY2E2ZjI3%40thread.v2/0?context=%7b%22Tid%22%3a%2209fd564e-bf42-4321-8f2d-b8e482f8635c%22%2c%22Oid%22%3a%22031d31fd-664d-4033-9147-ce245c1a8056%22%7d>\nFor organizers: Meeting options<https://teams.microsoft.com/meetingOptions/?organizerId=031d31fd-664d-4033-9147-ce245c1a8056&tenantId=09fd564e-bf42-4321-8f2d-b8e482f8635c&threadId=19_meeting_MTk2Y2E1OTgtN2JlYy00MzE1LWIxZmItMmNkN2YwY2E2ZjI3@thread.v2&messageId=0&language=en-US>\n________________________________________________________________________________\n",
       "location": "Microsoft Teams Meeting",
       "start": {
         "dateTime": "2026-06-25T07:00:00+08:00"

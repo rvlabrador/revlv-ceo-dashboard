@@ -468,6 +468,16 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent)}
 .kpi-value{font-size:18px;font-weight:800;line-height:1.2}
 .kpi-sub{font-size:10px;color:var(--text3);margin-top:2px}
 .kpi-up{color:var(--green)}.kpi-down{color:var(--red)}.kpi-neutral{color:var(--text2)}
+/* Operations KPI carousel */
+.ops-car-head{display:flex;align-items:center;gap:8px;padding:8px 12px 2px}
+.ops-cat{flex:1;text-align:center;font-size:12px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ops-nav{background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--text2);font-size:15px;line-height:1;padding:2px 9px;transition:.15s;flex-shrink:0}
+.ops-nav:hover{background:var(--card2);color:var(--accent);border-color:var(--accent)}
+.ops-foot{display:flex;align-items:center;justify-content:space-between;padding:2px 14px 10px;gap:8px}
+.ops-dots{display:flex;gap:5px}
+.ops-dot{width:7px;height:7px;border-radius:50%;background:var(--border);cursor:pointer;transition:.15s}
+.ops-dot.active{background:var(--accent);transform:scale(1.25)}
+.ops-src{font-size:9px;color:var(--text3);font-style:italic;white-space:nowrap}
 .noc-row{
   display:flex;align-items:center;gap:10px;padding:7px 12px;
   border-bottom:1px solid var(--border);font-size:11px;
@@ -961,38 +971,19 @@ html,body{height:100vh;overflow:hidden}
       </div>
     </div>
 
-    <!-- ─── Revlv Internal API ─── -->
+    <!-- ─── Operations KPI APIs (5 categories) ─── -->
     <div class="setup-section" style="border-left:3px solid var(--orange);margin-top:16px">
-      <h3 style="color:var(--orange)">🏢 Revlv Internal Systems API <span style="font-weight:400;color:var(--text3);font-size:11px">— optional</span></h3>
-      <p style="font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.6">
-        Connect your internal REST API to show live KPIs in the Operations panel. Leave blank to continue with demo data.
+      <h3 style="color:var(--orange)">📊 Operations KPI APIs <span style="font-weight:400;color:var(--text3);font-size:11px">— optional</span></h3>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.6">
+        Connect one REST endpoint per KPI category to feed the Operations carousel with live metrics. Each endpoint should return JSON
+        <code style="background:var(--border);padding:1px 4px;border-radius:3px">[{label, value, sub, trend}]</code> (or <code style="background:var(--border);padding:1px 4px;border-radius:3px">{"kpis":[...]}</code>).
+        Leave a category blank to keep its <strong>test data</strong>. All URLs and tokens are saved encrypted in your vault.
       </p>
 
-      <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;margin-bottom:10px">
-        <div class="form-row" style="margin:0">
-          <label>API Base URL</label>
-          <input type="url" id="setup_revlvApiUrl" placeholder="https://api.revlv.com/v1" style="font-family:monospace;font-size:11px;width:100%">
-        </div>
-        <button class="btn-sm" onclick="testRevlvApi()" style="margin-bottom:1px">Test Connection</button>
-      </div>
-      <div id="revlvApiTestStatus" style="font-size:11px;margin-bottom:10px;display:none"></div>
+      <div id="kpiApiSections"></div>
 
-      <div class="form-row">
-        <label>Bearer Token / API Key</label>
-        <input type="password" id="setup_revlvApiKey" placeholder="sk-••••••••••••••••" style="font-family:monospace;font-size:11px;width:100%">
-      </div>
-
-      <div style="font-size:11px;font-weight:700;color:var(--text3);margin-bottom:10px;margin-top:4px">ENDPOINT PATHS <span style="font-weight:400">(relative to base URL — leave blank to use demo data)</span></div>
-      <div style="display:grid;grid-template-columns:1fr;gap:8px">
-        <div class="form-row" style="margin:0">
-          <label>KPIs Endpoint</label>
-          <input type="text" id="setup_revlvEpKpi" placeholder="/kpis" style="font-size:11px;font-family:monospace">
-        </div>
-      </div>
-
-      <div style="font-size:10px;color:var(--text3);margin-top:12px;line-height:1.6;background:var(--bg2);border-radius:8px;padding:10px">
-        <strong>Expected JSON format:</strong><br>
-        KPIs: <code style="background:var(--border);padding:1px 4px;border-radius:3px">[{label, value, sub, trend}]</code>
+      <div style="font-size:10px;color:var(--text3);margin-top:6px;line-height:1.6;background:var(--bg2);border-radius:8px;padding:10px">
+        💡 <strong>trend</strong> can be <code>"up"</code>, <code>"down"</code>, or omitted. Endpoints are fetched with a <code>Bearer</code> token if you provide one. CORS must allow <code>http://localhost:3000</code>.
       </div>
     </div>
 
@@ -1904,10 +1895,19 @@ Speed + alignment = unstoppable.</textarea>
               <div class="card-header">
                 <span class="card-icon">🏢</span>
                 <h3>Revlv Operations</h3>
-                <button class="btn-sm secondary" onclick="loadTeamPulse()" style="margin-left:auto">↻</button>
+                <button class="btn-sm secondary" onclick="loadOps()" style="margin-left:auto" title="Refresh KPIs">↻</button>
               </div>
-              <div id="optab_content_kpi">
+              <div class="ops-car" onmouseenter="opsPause()" onmouseleave="opsResume()">
+                <div class="ops-car-head">
+                  <button class="ops-nav" onclick="opsPrev()" title="Previous category">‹</button>
+                  <div class="ops-cat" id="opsCatLabel">—</div>
+                  <button class="ops-nav" onclick="opsNext()" title="Next category">›</button>
+                </div>
                 <div class="kpi-grid" id="kpiGrid"></div>
+                <div class="ops-foot">
+                  <div class="ops-dots" id="opsDots"></div>
+                  <div class="ops-src" id="opsSrc"></div>
+                </div>
               </div>
             </div>
 
@@ -1972,8 +1972,7 @@ let CFG = {
   portfolioEntries:[], // Investment portfolio
   wealthItems:[], // Family wealth tracker
   crmContacts:[], // Key contacts CRM
-  revlvApiUrl:'', revlvApiKey:'',
-  revlvEpKpi:'',
+  kpiApis:{}, // per-category KPI endpoints {finance:{url,token}, noc:{...}, …} — saved in the encrypted vault
   logoDataUri:'',
   mission:'Innovate, Integrate, Elevate — Crafting Tomorrow\'s Solutions. Now.',
   vision:'To build Revlv Solutions Inc. into a financially self-sustaining enterprise that creates generational wealth for the Labrador family and lasting impact for the Philippines — for at least 3 generations.',
@@ -2051,7 +2050,7 @@ function initApp(){
     .forEach(fn=>{try{fn();}catch(e){console.warn('Widget render failed:',fn.name,e);}});
 
   // ── STEP 3: UI setup ──
-  [loadDemoTeamPulse,initLeadershipHQ,updateGreeting,setTodayDate,scheduleGospelDailyRefresh]
+  [loadOps,initLeadershipHQ,updateGreeting,setTodayDate,scheduleGospelDailyRefresh]
     .forEach(fn=>{try{fn();}catch(e){console.warn('UI setup failed:',fn.name,e);}});
 
   // ── STEP 4: Network / server connections ──
@@ -2071,9 +2070,13 @@ async function saveSetup(){
   CFG.tgToken = document.getElementById('setup_tgToken').value.trim();
   CFG.tgChatId = document.getElementById('setup_tgChatId').value.trim();
   CFG.syncInterval = Math.max(10, parseInt(document.getElementById('setup_syncInterval').value)||60);
-  CFG.revlvApiUrl = document.getElementById('setup_revlvApiUrl').value.trim();
-  CFG.revlvApiKey = document.getElementById('setup_revlvApiKey').value.trim();
-  CFG.revlvEpKpi = document.getElementById('setup_revlvEpKpi').value.trim();
+  // Operations KPI endpoints — one per category, saved encrypted in the vault
+  CFG.kpiApis = {};
+  ['finance','noc','hr','sales','creatives'].forEach(id=>{
+    const u=document.getElementById('kpi_'+id+'_url'), t=document.getElementById('kpi_'+id+'_token');
+    const url=(u&&u.value.trim())||'', token=(t&&t.value.trim())||'';
+    if(url||token) CFG.kpiApis[id]={url,token};
+  });
   CFG.mission=document.getElementById('setup_mission').value.trim();
   CFG.vision=(document.getElementById('setup_vision')||{value:''}).value.trim();
   CFG.strategy=(document.getElementById('setup_strategy')||{value:''}).value.trim();
@@ -3240,49 +3243,124 @@ function addGoalFromTg(text){
   openModal('addGoalModal');
 }
 
-// ─── TEAM PULSE (demo) ───
-// ─── OPS TABS ───
-function switchOpsTab(tab){
-  const c=document.getElementById('optab_content_kpi');
-  if(c)c.style.display='block';
-}
+// ═══════════════════════════════════════════════════════
+//  REVLV OPERATIONS — KPI CAROUSEL (5 categories)
+//  Each category can have its own API endpoint (Settings → Step 1).
+//  Until a live endpoint is configured & reachable, test data is shown.
+// ═══════════════════════════════════════════════════════
+const KPI_CATS=[
+  {id:'finance',   label:'Finance',               icon:'💰'},
+  {id:'noc',       label:'NOC & Engineering',     icon:'🛰️'},
+  {id:'hr',        label:'HR',                    icon:'👥'},
+  {id:'sales',     label:'Sales',                 icon:'📈'},
+  {id:'creatives', label:'Creatives & Marketing', icon:'🎨'},
+];
+const KPI_DEMO={
+  finance:[
+    {label:'Monthly Revenue',value:'₱2.4M',sub:'▲ 12% MoM',cls:'kpi-up'},
+    {label:'Recurring MRR',value:'₱1.8M',sub:'74% of revenue',cls:'kpi-up'},
+    {label:'Gross Margin',value:'58%',sub:'▲ 3 pts',cls:'kpi-up'},
+    {label:'Cash Runway',value:'14 mo',sub:'target ≥ 12',cls:'kpi-neutral'},
+    {label:'AR Overdue',value:'₱320K',sub:'▼ 8% WoW',cls:'kpi-up'},
+    {label:'Net Profit',value:'₱610K',sub:'25% margin',cls:'kpi-up'},
+  ],
+  noc:[
+    {label:'Network Uptime',value:'99.2%',sub:'SLA 99.5%',cls:'kpi-neutral'},
+    {label:'Open Incidents',value:'3',sub:'1 P1 · 2 P3',cls:'kpi-down'},
+    {label:'MTTR',value:'42 min',sub:'▼ 11 min',cls:'kpi-up'},
+    {label:'Active Deployments',value:'5',sub:'2 this week',cls:'kpi-neutral'},
+    {label:'SLA Compliance',value:'97%',sub:'target 98%',cls:'kpi-neutral'},
+    {label:'Tickets Resolved',value:'128',sub:'this week',cls:'kpi-up'},
+  ],
+  hr:[
+    {label:'Headcount',value:'28',sub:'2 onboarding',cls:'kpi-neutral'},
+    {label:'Open Positions',value:'4',sub:'2 in offer stage',cls:'kpi-neutral'},
+    {label:'Attrition (YTD)',value:'6%',sub:'▼ below target',cls:'kpi-up'},
+    {label:'Avg Tenure',value:'3.4 yr',sub:'▲ 0.2',cls:'kpi-up'},
+    {label:'Time-to-Hire',value:'24 d',sub:'▼ 5 d',cls:'kpi-up'},
+    {label:'eNPS',value:'+38',sub:'last pulse',cls:'kpi-up'},
+  ],
+  sales:[
+    {label:'Pipeline Value',value:'₱9.6M',sub:'42 open deals',cls:'kpi-up'},
+    {label:'Win Rate',value:'31%',sub:'▲ 4 pts',cls:'kpi-up'},
+    {label:'New Deals (MTD)',value:'7',sub:'₱1.2M ACV',cls:'kpi-up'},
+    {label:'Avg Deal Size',value:'₱171K',sub:'▲ 6%',cls:'kpi-up'},
+    {label:'Quota Attainment',value:'88%',sub:'month pace',cls:'kpi-neutral'},
+    {label:'Logo Churn',value:'1.4%',sub:'▼ improving',cls:'kpi-up'},
+  ],
+  creatives:[
+    {label:'MQLs',value:'214',sub:'▲ 18% MoM',cls:'kpi-up'},
+    {label:'Campaigns Live',value:'6',sub:'2 launching',cls:'kpi-neutral'},
+    {label:'Website Visits',value:'38.2K',sub:'▲ 9%',cls:'kpi-up'},
+    {label:'Conversion Rate',value:'3.1%',sub:'▲ 0.4 pts',cls:'kpi-up'},
+    {label:'Social Reach',value:'126K',sub:'30-day',cls:'kpi-up'},
+    {label:'Content Published',value:'19',sub:'this month',cls:'kpi-up'},
+  ],
+};
+let kpiData={};            // {catId: [kpi,...]} — demo or live
+let kpiLive={};            // {catId: true if live data loaded}
+let opsCatIdx=0, _opsTimer=null;
 
-function loadDemoTeamPulse(){
-  // KPIs
-  const kpis=[
-    {label:'Monthly Revenue',value:'₱2.4M',sub:'▲ 12% vs last month',cls:'kpi-up'},
-    {label:'Active Clients',value:'47',sub:'3 new this month',cls:'kpi-up'},
-    {label:'Starlink Uptime',value:'99.2%',sub:'SLA target: 99.5%',cls:'kpi-neutral'},
-    {label:'Open Tickets',value:'14',sub:'▼ 3 from yesterday',cls:'kpi-up'},
-    {label:'Recurring MRR',value:'₱1.8M',sub:'74% of total revenue',cls:'kpi-up'},
-    {label:'Team Size',value:'28',sub:'2 onboarding',cls:'kpi-neutral'},
-  ];
-  document.getElementById('kpiGrid').innerHTML=kpis.map(k=>`
+function _kpiCardsHtml(arr){
+  return (arr||[]).map(k=>{
+    // Whitelist the value class — never inject an arbitrary class from a live endpoint.
+    const cls=(k.cls==='kpi-up'||k.cls==='kpi-down'||k.cls==='kpi-neutral')?k.cls
+              :(k.trend==='up'?'kpi-up':k.trend==='down'?'kpi-down':'kpi-neutral');
+    return `
     <div class="kpi-card">
-      <div class="kpi-label">${k.label}</div>
-      <div class="kpi-value ${k.cls}">${k.value}</div>
-      <div class="kpi-sub">${k.sub}</div>
-    </div>`).join('');
+      <div class="kpi-label">${escHtml(k.label||'')}</div>
+      <div class="kpi-value ${cls}">${escHtml(String(k.value!=null?k.value:''))}</div>
+      <div class="kpi-sub">${escHtml(k.sub||'')}</div>
+    </div>`;
+  }).join('');
+}
+function renderOps(){
+  const cat=KPI_CATS[opsCatIdx]; if(!cat) return;
+  const lab=document.getElementById('opsCatLabel'); if(lab) lab.textContent=cat.icon+' '+cat.label+' KPI';
+  const grid=document.getElementById('kpiGrid'); if(grid) grid.innerHTML=_kpiCardsHtml(kpiData[cat.id]||KPI_DEMO[cat.id]);
+  const dots=document.getElementById('opsDots');
+  if(dots) dots.innerHTML=KPI_CATS.map((c,i)=>`<div class="ops-dot ${i===opsCatIdx?'active':''}" title="${escHtml(c.label)}" onclick="opsGoto(${i})"></div>`).join('');
+  const src=document.getElementById('opsSrc'); if(src) src.textContent=kpiLive[cat.id]?'● live data':'demo data';
+}
+function opsGoto(i){ opsCatIdx=((i%KPI_CATS.length)+KPI_CATS.length)%KPI_CATS.length; renderOps(); _opsRestart(); }
+function opsNext(){ opsGoto(opsCatIdx+1); }
+function opsPrev(){ opsGoto(opsCatIdx-1); }
+function _opsRestart(){ opsPause(); _opsTimer=setInterval(()=>{opsCatIdx=(opsCatIdx+1)%KPI_CATS.length;renderOps();}, 9000); }
+function opsPause(){ if(_opsTimer){clearInterval(_opsTimer);_opsTimer=null;} }
+function opsResume(){ if(!_opsTimer) _opsRestart(); }
 
-  // Projects
-  const projects=[
-    {name:'Starlink Visayas Deployment',status:'active',owner:'Sarah Cruz',pct:65},
-    {name:'BDO Network Upgrade',status:'active',owner:'John Santos',pct:40},
-    {name:'Revlv HQ Fiber Install',status:'atRisk',owner:'Mark Reyes',pct:20},
-    {name:'Globe Enterprise SLA Renewal',status:'onHold',owner:'Ryan Labrador',pct:80},
-    {name:'Employee IT Refresh 2026',status:'done',owner:'IT Team',pct:100},
-  ];
-  { const _pl=document.getElementById('projectsList'); if(_pl)_pl.innerHTML=projects.map(p=>`
-    <div class="project-row">
-      <div class="project-name">${escHtml(p.name)}</div>
-      <div style="font-size:10px;color:var(--text3);margin-right:8px">${escHtml(p.owner)}</div>
-      <div class="project-status ps-${p.status}">${p.status==='atRisk'?'At Risk':p.status.charAt(0).toUpperCase()+p.status.slice(1)}</div>
-    </div>
-    <div class="portfolio-bar-wrap"><div class="portfolio-bar" style="width:${p.pct}%;background:${p.status==='done'?'var(--green)':p.status==='atRisk'?'var(--red)':p.status==='onHold'?'var(--gold)':'var(--accent)'}"></div></div>
-  `).join(''); }
+// Fetch one category's KPIs from its configured endpoint. Returns array or null.
+async function fetchKpiCategory(catId){
+  const cfg=(CFG.kpiApis||{})[catId]||{};
+  const url=(cfg.url||'').trim(); if(!url) return null;
+  try{
+    const headers={'Content-Type':'application/json'};
+    if(cfg.token) headers['Authorization']='Bearer '+cfg.token;
+    const r=await fetch(url,{headers,signal:AbortSignal.timeout(6000)});
+    if(!r.ok) return null;
+    const j=await r.json();
+    const arr=Array.isArray(j)?j:(j&&Array.isArray(j.kpis)?j.kpis:null);
+    return (arr&&arr.length)?arr:null;
+  }catch(e){ return null; }
+}
+// Seed all categories with test data, render, then pull any configured live endpoints.
+async function loadOps(){
+  KPI_CATS.forEach(c=>{ if(!kpiData[c.id]) kpiData[c.id]=KPI_DEMO[c.id]; });
+  renderOps(); _opsRestart();
+  let liveCount=0;
+  await Promise.all(KPI_CATS.map(async c=>{
+    const live=await fetchKpiCategory(c.id);
+    if(live){ kpiData[c.id]=live; kpiLive[c.id]=true; liveCount++; }
+  }));
+  if(liveCount>0) renderOps();
+  return liveCount;
+}
+// Back-compat aliases for existing call sites.
+function loadTeamPulse(){ return loadOps(); }
+function loadDemoTeamPulse(){ KPI_CATS.forEach(c=>kpiData[c.id]=KPI_DEMO[c.id]); kpiLive={}; renderOps(); _opsRestart(); }
+function switchOpsTab(){ /* legacy no-op (single carousel now) */ }
 
-
-  // Team feed
+function _legacyTeamPulseUnused(){
   const updates=[
     {title:'Sarah Cruz submitted Starlink Visayas proposal',meta:'Today · Projects'},
     {title:'IT Team weekly standup moved to 2PM',meta:'Today · Operations'},
@@ -3298,14 +3376,6 @@ function loadDemoTeamPulse(){
         <div class="meta">${u.meta}</div>
       </div>
     </div>`).join(''); }
-}
-function loadTeamPulse(){
-  if(CFG.revlvApiUrl){
-    loadTeamPulseFromApi();
-  } else {
-    loadDemoTeamPulse();
-    toast('ℹ️','Operations','Showing demo data. Add your Revlv API URL in Settings → Step 1 for live metrics.');
-  }
 }
 
 // ═══════════════════════════════════════════════════════
@@ -4191,67 +4261,49 @@ function restoreLayout(){
 }
 
 // ═══════════════════════════════════════════════════════
-//  REVLV INTERNAL API
+//  OPERATIONS KPI APIs — per-category test connection
 // ═══════════════════════════════════════════════════════
-async function testRevlvApi(){
-  const url=(document.getElementById('setup_revlvApiUrl').value||'').trim();
-  const key=(document.getElementById('setup_revlvApiKey').value||'').trim();
-  const statusEl=document.getElementById('revlvApiTestStatus');
-  if(!url){statusEl.style.display='block';statusEl.style.color='var(--red)';statusEl.textContent='⚠️ Enter the API base URL first.';return;}
-  statusEl.style.display='block';statusEl.style.color='var(--text3)';statusEl.textContent='⏳ Testing connection…';
+// Build the 5 per-category API setting blocks in Settings, pre-filled from the vault.
+function renderKpiApiSettings(){
+  const host=document.getElementById('kpiApiSections');
+  if(!host || typeof KPI_CATS==='undefined') return;
+  const apis=CFG.kpiApis||{};
+  host.innerHTML=KPI_CATS.map(c=>{
+    const cur=apis[c.id]||{};
+    return `<div style="border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;background:var(--bg2)">
+      <div style="font-size:12px;font-weight:700;margin-bottom:6px">${c.icon} ${escHtml(c.label)} KPI</div>
+      <div class="form-row" style="margin:0 0 6px"><label style="font-size:11px">API URL</label><input type="url" id="kpi_${c.id}_url" value="${escHtml(cur.url||'')}" placeholder="https://api.revlv.com/${c.id}/kpis" style="font-family:monospace;font-size:11px;width:100%"></div>
+      <div class="form-row" style="margin:0 0 6px"><label style="font-size:11px">Bearer token <span style="color:var(--text3);font-weight:400">(optional)</span></label><input type="password" id="kpi_${c.id}_token" value="${escHtml(cur.token||'')}" placeholder="••••••••" style="font-family:monospace;font-size:11px;width:100%"></div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <button class="btn-sm secondary" style="font-size:11px" onclick="testKpiApi('${c.id}')">🔌 Test Connection</button>
+        <span id="kpi_${c.id}_status" style="font-size:11px;display:none"></span>
+      </div>
+    </div>`;
+  }).join('');
+}
+async function testKpiApi(catId){
+  const url=(document.getElementById('kpi_'+catId+'_url').value||'').trim();
+  const token=(document.getElementById('kpi_'+catId+'_token').value||'').trim();
+  const st=document.getElementById('kpi_'+catId+'_status');
+  if(!st) return;
+  const show=(color,msg)=>{ st.style.display='block'; st.style.color=color; st.textContent=msg; };
+  if(!url){ show('var(--gold)','⚠️ Enter the API URL first.'); return; }
+  show('var(--text3)','⏳ Testing…');
   try{
     const headers={'Content-Type':'application/json'};
-    if(key) headers['Authorization']='Bearer '+key;
-    const r=await fetch(url.replace(/\/$/,'')+'/',{method:'GET',headers,signal:AbortSignal.timeout(5000)});
-    if(r.ok||r.status<500){
-      statusEl.style.color='var(--green)';
-      statusEl.textContent='✅ Connected — HTTP '+r.status+'. Your API is reachable.';
+    if(token) headers['Authorization']='Bearer '+token;
+    const r=await fetch(url,{method:'GET',headers,signal:AbortSignal.timeout(6000)});
+    if(r.ok){
+      let shape=' · response not JSON';
+      try{ const j=await r.json(); const arr=Array.isArray(j)?j:(j&&j.kpis); shape=Array.isArray(arr)?(' · '+arr.length+' KPI(s) returned'):' · unexpected JSON shape'; }catch(e){}
+      show('var(--green)','✅ Connected (HTTP '+r.status+')'+shape);
+    } else if(r.status<500){
+      show('var(--gold)','⚠️ Reachable but HTTP '+r.status+' — check the path/token.');
     } else {
-      statusEl.style.color='var(--gold)';
-      statusEl.textContent='⚠️ Reachable but returned HTTP '+r.status+'. Check your endpoints.';
+      show('var(--gold)','⚠️ Server error HTTP '+r.status+'.');
     }
   }catch(err){
-    statusEl.style.color='var(--red)';
-    statusEl.textContent='❌ Could not reach '+url+'. Check the URL and CORS settings.';
-  }
-}
-
-async function fetchRevlvEndpoint(epKey){
-  const base=(CFG.revlvApiUrl||'').replace(/\/$/,'');
-  const path=CFG[epKey]||'';
-  if(!base||!path)return null;
-  try{
-    const headers={'Content-Type':'application/json'};
-    if(CFG.revlvApiKey) headers['Authorization']='Bearer '+CFG.revlvApiKey;
-    const r=await fetch(base+path,{headers,signal:AbortSignal.timeout(5000)});
-    if(!r.ok)return null;
-    return await r.json();
-  }catch(e){return null;}
-}
-
-async function loadTeamPulseFromApi(){
-  setDotStatus('telegram','pending'); // reuse for ops
-  const [kpis]=await Promise.all([
-    fetchRevlvEndpoint('revlvEpKpi'),
-  ]);
-  let anyLive=false;
-
-  if(Array.isArray(kpis)&&kpis.length>0){
-    anyLive=true;
-    document.getElementById('kpiGrid').innerHTML=kpis.map(k=>`
-      <div class="kpi-card">
-        <div class="kpi-label">${escHtml(k.label||'')}</div>
-        <div class="kpi-value ${k.trend==='up'?'kpi-up':k.trend==='down'?'kpi-down':'kpi-neutral'}">${escHtml(String(k.value||''))}</div>
-        <div class="kpi-sub">${escHtml(k.sub||'')}</div>
-      </div>`).join('');
-  }
-
-  if(!anyLive){
-    // Fall back to demo
-    loadDemoTeamPulse();
-    toast('ℹ️','Operations','No live API data — showing demo. Check API settings.');
-  } else {
-    toast('✅','Operations Updated','Live data loaded from Revlv API.');
+    show('var(--red)','❌ Could not reach it (URL / CORS / timeout).');
   }
 }
 
@@ -5573,9 +5625,7 @@ function populateSetupFields(){
   { const set=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val||'';};
     set('gh_repo',CFG.ghRepo); set('gh_branch',CFG.ghBranch||'main'); set('gh_token',CFG.ghToken);
     set('gh_name',CFG.ghName); set('gh_email',CFG.ghEmail); }
-  document.getElementById('setup_revlvApiUrl').value=CFG.revlvApiUrl||'';
-  document.getElementById('setup_revlvApiKey').value=CFG.revlvApiKey||'';
-  document.getElementById('setup_revlvEpKpi').value=CFG.revlvEpKpi||'';
+  renderKpiApiSettings(); // build + pre-fill the 5 Operations KPI API blocks from the vault
   document.getElementById('setup_mission').value=CFG.mission||'';
   const vEl=document.getElementById('setup_vision');if(vEl)vEl.value=CFG.vision||'';
   const sEl=document.getElementById('setup_strategy');if(sEl)sEl.value=CFG.strategy||'';

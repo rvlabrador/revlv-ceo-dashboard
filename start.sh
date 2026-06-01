@@ -18,6 +18,11 @@ LOG="/tmp/revlv-dashboard.log"
 PYTHON="/usr/bin/python3"
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 DASH_URL="http://localhost:${PORT}/?fresh=1"
+# Dedicated Chrome profile so the dashboard runs as its OWN isolated instance.
+# This makes Chrome fully quit when the dashboard window closes (no leftover dock
+# icon), and keeps it separate from your everyday browsing.
+CHROME_PROFILE="$HOME/Library/Application Support/RevlvCEODashboard/chrome"
+mkdir -p "$CHROME_PROFILE" 2>/dev/null || true
 
 echo ""
 echo "  ██████╗ ╗██╗     ██ ██╗    ██╗"
@@ -130,22 +135,26 @@ sleep 0.3   # brief pause so any killed window fully exits
 
 if [ -f "$CHROME" ]; then
     "$CHROME" \
+        --user-data-dir="$CHROME_PROFILE" \
         --app="$DASH_URL" \
         --start-fullscreen \
         --new-window \
         --disable-translate \
         --no-first-run \
+        --no-default-browser-check \
         --noerrdialogs \
         --disable-features=TranslateUI \
         2>/dev/null &
     disown $!
 else
     /usr/bin/open -na "Google Chrome" --args \
+        --user-data-dir="$CHROME_PROFILE" \
         --app="$DASH_URL" \
         --start-fullscreen \
         --new-window \
         --disable-translate \
         --no-first-run \
+        --no-default-browser-check \
         --noerrdialogs
 fi
 

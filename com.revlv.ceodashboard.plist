@@ -4,46 +4,28 @@
 <dict>
     <key>Label</key>
     <string>com.revlv.ceodashboard</string>
-
-    <!-- Python server — serves the dashboard, data files, and the local /transcribe (Whisper) endpoint -->
     <key>ProgramArguments</key>
     <array>
         <string>/usr/bin/python3</string>
         <string>/Users/mac/Documents/Claude/Projects/revlv-ceo-dashboard/server.py</string>
     </array>
-
-    <!-- Serve from the dashboard project folder -->
     <key>WorkingDirectory</key>
     <string>/Users/mac/Documents/Claude/Projects/revlv-ceo-dashboard</string>
-
-    <!-- Ensure Homebrew bin dirs are on PATH so Whisper can find ffmpeg -->
     <key>EnvironmentVariables</key>
     <dict>
         <key>PATH</key>
         <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>REVLV_HOST</key>
+        <string>127.0.0.1</string>
+        <key>REVLV_PORT</key>
+        <string>3000</string>
     </dict>
-
-    <!-- Start at Mac login -->
     <key>RunAtLoad</key>
     <true/>
-
-    <!-- Always restart if it crashes or exits -->
     <key>KeepAlive</key>
     <true/>
-
-    <!-- Wait 3 seconds before restart to avoid rapid loops -->
     <key>ThrottleInterval</key>
     <integer>3</integer>
-
-    <!-- Restart even on success exit -->
-    <key>SuccessfulExit</key>
-    <false/>
-
-    <!-- Restart on any exit code -->
-    <key>ExitTimeout</key>
-    <integer>5</integer>
-
-    <!-- Logs -->
     <key>StandardOutPath</key>
     <string>/tmp/revlv-dashboard.log</string>
     <key>StandardErrorPath</key>

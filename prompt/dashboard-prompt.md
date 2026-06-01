@@ -143,7 +143,10 @@ There is nothing to configure. The two widgets open Facebook Messenger (`https:/
 | Weather + AI Briefing | ✅ | OpenWeatherMap API |
 | Focus / Pomodoro Timer | ✅ | 25 / 50 / 90 min modes |
 | Telegram Dictation | ✅ | Text + voice commands; command legend shown by default; polls for new messages |
-| Team Pulse | ✅ | Demo data (connect internal APIs) |
+| Revlv Operations | ✅ | KPI carousel of 5 categories (Finance · NOC & Engineering · HR · Sales · Creatives & Marketing); auto-rotates; test data until live APIs connected |
+| Operations KPI APIs | ✅ | One endpoint + token per category, with Test Connection; saved encrypted in the vault |
+| Messenger / Google Chat | ✅ | Launch-card widgets (open in a focused window) |
+| GitHub Backup & Restore | ✅ | Push code+settings to a private repo; roll back to any version; token in vault |
 | Culture Banner | ✅ | Mission + rotating daily values |
 | Leadership HQ Panel | ✅ | Goals, HBS Compass, Unit 2, Principles |
 | Document Uploads | ✅ | PDF, PPTX, DOCX — stored in vault |
@@ -207,6 +210,18 @@ Everything is portable — there are no hard-coded usernames or paths (the insta
    It installs Homebrew/ffmpeg/Chrome/Python packages as needed, generates the server for that Mac, and puts the shortcut on the Desktop.
 3. **Bring your data across** (optional but recommended): on the old Mac, open Settings → Other Settings → **Export All Data**. On the new Mac, after first launch, create the admin account, then Settings → **Restore from Backup** and pick that file. Your vault, to-dos, goals, widgets, and layout all come over.
 4. **Re-create the scheduled tasks** (Calendar/Gospel/Meeting-creator) on the new Mac by asking Claude in Cowork to set them up, or copy them from the **Scheduled** panel — these live in Claude, not in the project folder.
+
+---
+
+## OPERATIONS KPIs (5-CATEGORY CAROUSEL)
+
+The **Revlv Operations** card is a carousel that rotates through five KPI groups: **💰 Finance**, **🛰️ NOC & Engineering**, **👥 HR**, **📈 Sales**, **🎨 Creatives & Marketing**. Use the ‹ › arrows or the dots to switch; it auto-advances every ~9s and pauses on hover. Each group shows realistic **test data** until you connect a live endpoint.
+
+**Connect live data (optional)** — Settings → Step 1 → **📊 Operations KPI APIs**:
+- Each category has its own **API URL** + optional **Bearer token** and a **🔌 Test Connection** button (reports HTTP status and how many KPIs were returned).
+- Endpoints must return JSON `[{label, value, sub, trend}]` (or `{"kpis":[...]}`). `trend` of `"up"`/`"down"` colors the value green/red.
+- All URLs and tokens are **saved encrypted in the vault**. CORS on each endpoint must allow `http://localhost:3000`.
+- A category with no endpoint keeps its test data; configured + reachable categories switch to live automatically on load/refresh (footer shows "● live data").
 
 ---
 

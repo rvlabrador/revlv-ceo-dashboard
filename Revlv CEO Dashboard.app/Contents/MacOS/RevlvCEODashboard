@@ -17,6 +17,11 @@ PLIST_DEST="$HOME/Library/LaunchAgents/${PLIST_NAME}.plist"
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 LOG="/tmp/revlv-dashboard.log"
 PYTHON="/usr/bin/python3"
+# Dedicated Chrome profile → dashboard runs as its own isolated instance that fully
+# quits when its window closes (no leftover Chrome dock icon), separate from your
+# everyday Chrome.
+CHROME_PROFILE="$HOME/Library/Application Support/RevlvCEODashboard/chrome"
+mkdir -p "$CHROME_PROFILE" 2>/dev/null || true
 
 # ── Helper: show an error dialog and quit ────────────────────
 die() {
@@ -79,22 +84,26 @@ fi
 #   --new-window      forces fresh window → fresh sessionStorage → login screen
 if [ -f "$CHROME" ]; then
     "$CHROME" \
+        --user-data-dir="$CHROME_PROFILE" \
         --app="$DASH_URL" \
         --start-fullscreen \
         --new-window \
         --disable-translate \
         --no-first-run \
+        --no-default-browser-check \
         --noerrdialogs \
         --disable-features=TranslateUI \
         2>/dev/null &
     disown $!
 else
     /usr/bin/open -na "Google Chrome" --args \
+        --user-data-dir="$CHROME_PROFILE" \
         --app="$DASH_URL" \
         --start-fullscreen \
         --new-window \
         --disable-translate \
         --no-first-run \
+        --no-default-browser-check \
         --noerrdialogs || \
         die "Google Chrome not found.\n\nInstall Chrome from https://google.com/chrome and try again."
 fi
